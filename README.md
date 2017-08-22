@@ -1,4 +1,4 @@
-# C-Primer-Plus and k.r
+# C-Primer-Plus and K.R
 
 这是一个作业练习的程序库
 每个程序包含一个main函数，实现单一功能
