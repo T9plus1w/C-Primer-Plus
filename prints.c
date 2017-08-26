@@ -19,20 +19,26 @@ void printd(int n);
 int main(){
     int n;
     scanf("%d",&n);
+    printf("输入的数位：%d",n);
+    printf("\n");
     printd(n);
-
+    printf("\n");
     return 0;
 }
 
 /*printd函数：打印十进制数n*/
 void printd(int n)
 {
+  int c;
   if(n < 0)    //n是负数，取负号 将n变正
+  {
     putchar('-');
     n = -n;
+  }
   if(n/10)    //递归跳出判断
   {
     printd(n/10);    //递归调用函数本身
   }
-  putchar(n%10 + '0');    //打印数字
+  c = n%10 +'0';
+  putchar(c);    //打印数字
 }
