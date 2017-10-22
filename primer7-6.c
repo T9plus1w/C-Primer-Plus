@@ -5,11 +5,11 @@
 
 int main(void)
 {
-    char ch,prev;
+    char ch,prev = 0;
     int n = 0;
 
     printf("please input characters:");
-    while((ch = getchar()) != '#')
+    while((ch = getchar()) != '#')    //读取输入，遇到＃号结束循环
     {
         if((ch == 'i') && (prev == 'e'))    //当ei出现统计加1
         {
