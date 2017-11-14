@@ -11,10 +11,10 @@ int main(int argc, char const *argv[]) {
   float total = 0.00,average = 0.00;
   float x;
   int n = 0;
-
-  if(argc > 1)
+  
+  if(argc > 1)    //有一个命令行参数
   {
-        fp = fopen(argv[1],"r");
+        fp = fopen(argv[1],"r");    //打开文件并读取数据
         while(fscanf(fp,"%f",&x) == 1 && x > 0)
         {
             total += x;
@@ -24,8 +24,9 @@ int main(int argc, char const *argv[]) {
         fprintf(stdout,"average = %.2f\n",average);
         fclose(fp);
   }
-  else
+  else    //没有命令行参数
   {
+    //从标准输入流读取数据
     printf("please input float(-1 to quit):");
     while(fscanf(stdin,"%f",&x) == 1 && x > 0)
     {
