@@ -17,6 +17,7 @@
   e.每次运行程序都把数据保存到一个文件中。当程序再次运行时，首先从文件中载入数据（如果有的话）。
 */
 #include <stdio.h>
+#include <stdbool.h>
 
 #define MAXTITL 40
 #define MAXAUTL 40
@@ -24,16 +25,20 @@
 
 struct airplane
 {
-    char title[MAXTITL];
-    char author[MAXAUTL];
-    float value;
+    int number;
+    bool occupied;
+    char firstName[MAXTITL];
+    char lastName[MAXAUTL];
 };
 
 void showmenu();
 int main(void)
 {
   struct airplane airplane[MAXAIR];
+  char keyword;
   showmenu();
+  printf("Please enter a-e(f to quit):");
+  keyword = getchar();
   
   return 0;
 }
