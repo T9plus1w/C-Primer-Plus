@@ -40,10 +40,20 @@ int main(void)
   printf("Please enter a-e(f to quit):");
   keyword = getchar();
   
+  while(keyword >= 'a' && keyword <= 'f' )
+  {
+      
+  }
   return 0;
 }
 
 void showmenu()
 {
-    printf("To choose a function\n", );
+    printf("To choose a function\n");
+    printf("a.Show number of empty seats.\n");
+    printf("b.Show list of empty seats\n");
+    printf("c.Show alphabetical list of seats\n");
+    printf("d.Assign a customer to a seat assignment\n");
+    printf("e.Delete a seat assignment\n");
+    printf("f.Quit");
 }
