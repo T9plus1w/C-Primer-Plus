@@ -38,15 +38,9 @@ int main(void)
   char keyword;
   showmenu();
   printf("Please enter a-e(f to quit):");
-  keyword = getchar();
-  
-  while(keyword >= 'a' && keyword <= 'f' )
-  {
-      
-  }
+ 
   return 0;
 }
-
 void showmenu()
 {
     printf("To choose a function\n");
