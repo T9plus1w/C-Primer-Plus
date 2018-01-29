@@ -18,27 +18,166 @@
 */
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
 
 #define MAXTITL 40
 #define MAXAUTL 40
-#define MAXAIR 12    
+#define MAXAIR 12
 
 struct airplane
 {
     int number;
-    bool occupied;
+    bool occupied;    //座位是否分配出去 0未分配，1已分配
     char firstName[MAXTITL];
     char lastName[MAXAUTL];
 };
 
 void showmenu();
+void init(struct airplane airplane[MAXAIR]);
+void showEmptySeats(struct airplane airplane[MAXAIR]);
+void showListEmptySeats(struct airplane airplane[MAXAIR]);
+int showAlphabeticalListSeats(struct airplane airplane[MAXAIR]);
+void assignment(struct airplane airplane[MAXAIR],struct airplane temp);
+
 int main(void)
 {
   struct airplane airplane[MAXAIR];
+  struct airplane temp;
   char keyword;
+  char c;
+  char firstName[MAXTITL];
+  char lastName[MAXTITL];
+  //初始化座位编号以及是否分配
+  init(airplane);
+  //显示菜单,并提示用户输入一个字符
   showmenu();
-  printf("Please enter a-e(f to quit):");
- 
-  return 0;
+  printf("Please enter a~e(f to quit):");
+
+  //获取第一个用户选项
+  keyword = getchar();
+  while((c = getchar()) != '\n' && c != EOF)
+      continue;
+
+  //菜单程序，输出用户选择的功能并循环输入
+  while(keyword >= 'a' && keyword <= 'f' )
+  {
+      switch (keyword)
+      {
+          case 'a':
+              showEmptySeats(airplane);
+              break;
+          case 'b':
+              showListEmptySeats(airplane);
+              break;
+          case 'c':
+              showAlphabeticalListSeats(airplane);
+              break;
+          case 'd':
+              printf("please enter first Name:");
+              scanf("%s",temp.firstName);
+              printf("please enter last Name:");
+              scanf("%s",temp.lastName);
+              
+              assignment(airplane,temp);
+              break;
+          case 'e':
+
+              break;
+          case 'f':
+              return 1;
+              break;
+          default:
+              printf("please enter a~e(f to quit):\n");
+       }
+
+        showmenu();
+        printf("Please enter a~e(f to quit):");
+        keyword = getchar();
+
+        //清空getchar缓存
+        while((c = getchar()) != '\n' && c != EOF)
+            continue;
+    }
+
+    return 0;
 }
 
+//显示菜单函数
+void showmenu()
+{
+    printf("To choose a function\n");
+    printf("a.Show number of empty seats.\n");
+    printf("b.Show list of empty seats\n");
+    printf("c.Show alphabetical list of seats\n");
+    printf("d.Assign a customer to a seat assignment\n");
+    printf("e.Delete a seat assignment\n");
+    printf("f.Quit\n");
+}
+
+//初始化座位编号以及是否分配
+void init(struct airplane airplane[MAXAIR])
+{
+    int i;
+    for(i = 0; i < MAXAIR;i++)
+    {
+        airplane[i].number = i+1;
+        airplane[i].occupied = 0;
+        airplane[i].firstName = '\0';
+    }
+}
+
+//显示空座位函数
+void showEmptySeats(struct airplane airplane[MAXAIR])
+{
+    int i;
+    int count = 0;
+    for(i = 0; i < MAXAIR; i++)
+    {
+        if(airplane[i].occupied == 0)
+        {
+            count++;
+        }
+    }
+    printf("空座位数共计: %d\n",count);
+}
+
+//显示空座位数列表
+void showListEmptySeats(struct airplane airplane[MAXAIR])
+{
+    int i;
+
+    printf("空座位编号:");
+    for(i = 0; i < MAXAIR; i++)
+    {
+        if(airplane[i].occupied == 0)
+        {
+          printf("%d ",airplane[i].number);
+        }
+    }
+    printf("\n");
+}
+
+//按字母顺序排序
+int showAlphabeticalListSeats(struct airplane airplane[MAXAIR])
+{
+    int i;
+    int j;
+    int c;
+    struct airplane temp;
+    for(i = 0; i < MAXAIR;i++)
+    {
+       for(j = 1;j < MAXAIR;j++)
+       {
+         if(airplane[j].firstName == '\0')
+         {
+             return 0;
+         }
+         if((c = strcmp(airplane[i].firstName,airplane[j].firstName)) < 0)
+         {
+             temp = airplane[i];
+             airplane[i] = airplane[j];
+             airplane[j] = temp;
+         }
+       }
+    }
+}
