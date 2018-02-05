@@ -4,6 +4,7 @@
   a.程序使用一个含12个结构的数组。每个结构要包括一个用于标识座位的编号、一个表示座位是否
 分配出去的标记、座位预定人的姓和座位预定人的名。
   b.程序显示下面的菜单：
+
   To choose a function,enter its letter label:
   a.Show number of empty seats
   b.Show list of empty seats
@@ -11,6 +12,7 @@
   d.Assign a customer to a seat assignment
   e.Delete a seat assignment
   f.Quit
+
   c.程序应能执行菜单所给出的功能。选择d和e需要额外的输入，每一个选项都应当允许用户终止
   输入。
   d.执行完一个特定的功能之后，程序再次显示菜单，除非选择了f。
@@ -36,8 +38,9 @@ void showmenu();
 void init(struct airplane airplane[MAXAIR]);
 void showEmptySeats(struct airplane airplane[MAXAIR]);
 void showListEmptySeats(struct airplane airplane[MAXAIR]);
-int showAlphabeticalListSeats(struct airplane airplane[MAXAIR]);
-void assignment(struct airplane airplane[MAXAIR],struct airplane temp);
+void showAlphabeticalListSeats(struct airplane airplane[MAXAIR]);
+int assignment(struct airplane airplane[MAXAIR],struct airplane temp);
+int deleteSeats(struct airplane airplane[MAXAIR],struct airplane temp);
 
 int main(void)
 {
@@ -45,8 +48,7 @@ int main(void)
   struct airplane temp;
   char keyword;
   char c;
-  char firstName[MAXTITL];
-  char lastName[MAXTITL];
+
   //初始化座位编号以及是否分配
   init(airplane);
   //显示菜单,并提示用户输入一个字符
@@ -73,15 +75,31 @@ int main(void)
               showAlphabeticalListSeats(airplane);
               break;
           case 'd':
+              //获取temp
               printf("please enter first Name:");
               scanf("%s",temp.firstName);
+              while(getchar() != '\n')
+                  continue;
               printf("please enter last Name:");
               scanf("%s",temp.lastName);
-              
+              while(getchar() != '\n')
+                  continue;
+              temp.occupied = 1;
+
               assignment(airplane,temp);
               break;
           case 'e':
+              //获取temp
+              printf("please enter first Name:");
+              scanf("%s",temp.firstName);
+              while(getchar() != '\n')
+                  continue;
+              printf("please enter last Name:");
+              scanf("%s",temp.lastName);
+              while(getchar() != '\n')
+                  continue;
 
+              deleteSeats(airplane,temp);
               break;
           case 'f':
               return 1;
@@ -122,7 +140,8 @@ void init(struct airplane airplane[MAXAIR])
     {
         airplane[i].number = i+1;
         airplane[i].occupied = 0;
-        airplane[i].firstName = '\0';
+        airplane[i].firstName[0] = '\0';
+        airplane[i].lastName[0] = '\0';
     }
 }
 
@@ -157,27 +176,53 @@ void showListEmptySeats(struct airplane airplane[MAXAIR])
     printf("\n");
 }
 
-//按字母顺序排序
-int showAlphabeticalListSeats(struct airplane airplane[MAXAIR])
+//显示座位的字母顺序
+void showAlphabeticalListSeats(struct airplane airplane[MAXAIR])
 {
     int i;
-    int j;
-    int c;
-    struct airplane temp;
     for(i = 0; i < MAXAIR;i++)
     {
-       for(j = 1;j < MAXAIR;j++)
-       {
-         if(airplane[j].firstName == '\0')
-         {
-             return 0;
-         }
-         if((c = strcmp(airplane[i].firstName,airplane[j].firstName)) < 0)
-         {
-             temp = airplane[i];
-             airplane[i] = airplane[j];
-             airplane[j] = temp;
-         }
-       }
+        if(airplane[i].occupied == 1)
+        {
+            printf("%d %s %s\n",airplane[i].number,airplane[i].firstName
+                             ,airplane[i].lastName);
+        }
     }
+}
+
+//分配一个客户到一个座位
+int assignment(struct airplane airplane[MAXAIR],struct airplane temp)
+{
+    int i;
+    for(i = 0; i < MAXAIR;i++)
+    {
+        if(airplane[i].occupied == 0)
+        {
+            temp.number = airplane[i].number;
+            airplane[i] = temp;
+            return 1;
+        }
+    }
+    return 0;
+}
+
+//删除一个座位分配
+int deleteSeats(struct airplane airplane[MAXAIR],struct airplane temp)
+{
+    int i;
+    for(i = 0; i < MAXAIR;i++)
+    {
+        if(!(strcmp(airplane[i].firstName,temp.firstName)))
+        {
+            if(!(strcmp(airplane[i].lastName,temp.lastName)))
+            {
+                airplane[i].firstName[0] = '\0';
+                airplane[i].lastName[0] = '\0';
+                airplane[i].occupied = 0;
+                return 1;
+            }
+        }
+    }
+
+    return 0;
 }
