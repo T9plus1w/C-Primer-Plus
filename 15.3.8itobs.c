@@ -47,3 +47,4 @@ void show_bstr(const char *str)
             putchar(' ');
     }
 }
+
