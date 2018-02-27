@@ -9,7 +9,10 @@ int rotate_1(unsigned int number,unsigned int bit);
 
 int main(void)
 {
-
+  unsigned int i = 8;
+  printf("%u\n",i);
+  i = rotate_1(i,4);
+  printf("%u\n",i);
   return 0;
 }
 
